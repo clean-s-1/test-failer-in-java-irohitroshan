@@ -1,23 +1,31 @@
 public class TemperatureThresholdAlerter {
+    public static final String ENV_TYPE = "DEVELOPMENT";
     static int alertFailureCount = 0;
 
-    static void alertInCelsius(float fahrenheit , TemperatureThresholdStub temperatureThresholdStub) {
+    static void alertInCelsius(float fahrenheit , NetworkTemperatureAlerter networkTemperatureAlerter) {
         float celsius = (fahrenheit - 32) * 5 / 9;
-        int returnCode = temperatureThresholdStub.networkAlertStub(celsius);
+        int returnCode = networkTemperatureAlerter.networkAlertStub(celsius);
         if (returnCode != 200) {
-            // non-ok response is not an error! Issues happen in life!
-            // let us keep a count of failures to report
-            // However, this code doesn't count failures!
-            // Add a test below to catch this bug. Alter the stub above, if needed.
-            alertFailureCount += 0;
-            assert (alertFailureCount > 0):"Non ok response was not counted since stub was always returning 200";
+            alertFailureCount += 1;
         }
     }
+
+    private static NetworkTemperatureAlerter getNetworkAlert() {
+        NetworkTemperatureAlerter networkTemperatureAlerter = null;
+        if (EnvironmentType.DEVELOPMENT.name().equals(ENV_TYPE)) {
+            networkTemperatureAlerter = new NetworkTemperatureAlerterStubImpl();
+        } else if (EnvironmentType.PRODUCTION.name().equals(ENV_TYPE)) {
+            networkTemperatureAlerter = new NetworkTemperatureAlerterImpl();
+        }
+        return networkTemperatureAlerter;
+    }
+
     public static void main(String[] args) {
-        TemperatureThresholdStub temperatureThresholdStub = new TemperatureThresholdStubImpl();
-        alertInCelsius(400.5f, temperatureThresholdStub);
-        alertInCelsius(303.6f, temperatureThresholdStub);
+        NetworkTemperatureAlerter networkTemperatureAlerter = getNetworkAlert();
+        alertInCelsius(400.5f, networkTemperatureAlerter);
+        alertInCelsius(303.6f, networkTemperatureAlerter);
         System.out.printf("%d alerts failed.\n", alertFailureCount);
+        assert (alertFailureCount == 1);
         System.out.println("All is well (maybe!)\n");
     }
 }
