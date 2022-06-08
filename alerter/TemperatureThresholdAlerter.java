@@ -13,7 +13,7 @@ public class TemperatureThresholdAlerter {
     private static NetworkTemperatureAlerter getNetworkAlert() {
         NetworkTemperatureAlerter networkTemperatureAlerter = null;
         if (EnvironmentType.DEVELOPMENT.name().equals(ENV_TYPE)) {
-            networkTemperatureAlerter = new NetworkTemperatureAlerterStubImpl();
+            networkTemperatureAlerter = new NetworkTemperatureAlerterDevImpl();
         } else if (EnvironmentType.PRODUCTION.name().equals(ENV_TYPE)) {
             networkTemperatureAlerter = new NetworkTemperatureAlerterImpl();
         }

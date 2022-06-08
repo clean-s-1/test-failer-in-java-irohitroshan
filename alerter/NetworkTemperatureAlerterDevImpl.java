@@ -1,4 +1,4 @@
-public class NetworkTemperatureAlerterStubImpl implements NetworkTemperatureAlerter{
+public class NetworkTemperatureAlerterDevImpl implements NetworkTemperatureAlerter{
 
     @Override
     public Integer networkAlertStub(final float celsius) {

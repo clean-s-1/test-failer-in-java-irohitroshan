@@ -10,8 +10,9 @@ public class MisalignedTwistedColorWirePair {
         List<TwistedColorWirePair> twistedColorWirePairs = getTwistedColorWirePairs();
         testTwistedColorWirePair(twistedColorWirePairs);
         printTwistedColorPairs(twistedColorWirePairs);
+        testTwistedColorPairManualFormat(twistedColorWirePairs);
         int result = twistedColorWirePairs.size();
-        assert(result != 25):"Printed Color Pairs count is matching";
+        assert(result == 25);
         System.out.println("All is well (maybe!)");
     }
 
@@ -21,6 +22,23 @@ public class MisalignedTwistedColorWirePair {
 
         assert (RED.equalsIgnoreCase(twistedColorWirePair.getMajorColor())):" Invalid Major Color";
         assert (GREEN.equalsIgnoreCase(twistedColorWirePair.getMinorColor())):"Invalid Minor Color";
+    }
+
+    private static void testTwistedColorPairManualFormat(List<TwistedColorWirePair> twistedColorPairList) {
+
+        StringBuilder manualBuilder = new StringBuilder();
+        for(TwistedColorWirePair twistedColorPair : twistedColorPairList) {
+            manualBuilder.append(String.format("%d | %s | %s\n",twistedColorPair.getWirePair(),twistedColorPair.getMajorColor(),twistedColorPair.getMinorColor()));
+        }
+        String expectedColorPairManualFormat = manualBuilder.toString();
+        System.out.println("**** Expected Colored Wire Pair Manual Format ********");
+        System.out.println(expectedColorPairManualFormat);
+        System.out.println("***** Actual Colored Wire Pair Manual Format **********");
+
+        String actualColorPairManualFormat = TwistedColorWirePairPrinterImpl.getFormattedColorWirePairList();
+        System.out.println(actualColorPairManualFormat);
+        assert (actualColorPairManualFormat.equalsIgnoreCase(expectedColorPairManualFormat));
+
     }
 
     private static void printTwistedColorPairs(List<TwistedColorWirePair> twistedColorWirePairs) {
