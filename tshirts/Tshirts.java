@@ -1,11 +1,18 @@
+import java.util.InputMismatchException;
+
 public class Tshirts {
     static String size(int cms) {
+        if(cms <= 24){
+            throw new InputMismatchException("T-shirts of this size are not manufactured");
+        }
         if(cms < 38) {
             return "S";
-        } else if(cms > 38 && cms < 42) {
+        } else if(cms <=42) {
             return "M";
-        } else {
+        } else if(cms <= 46){
             return "L";
+        }else{
+            throw new InputMismatchException("T-shirts of this size are not manufactured");
         }
     }
 
